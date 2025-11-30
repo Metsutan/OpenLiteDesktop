@@ -1,7 +1,7 @@
 {
   "name": "ryelite",
   "productName": "RyeLite",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A RuneLite-esque Client for the game High Spell",
   "homepage": "https://github.com/RyeL1te/Core#readme",
   "engines": {
