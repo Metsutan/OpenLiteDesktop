@@ -1,7 +1,7 @@
 {
   "name": "ryelite",
   "productName": "RyeLite",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A RuneLite-esque Client for the game High Spell",
   "homepage": "https://github.com/RyeL1te/Core#readme",
   "engines": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RyeL1te/RyeliteDesktop/.git"
+    "url": "git+https://github.com/RyeL1te/RyeliteDesktop.git"
   },
   "license": "GPL-3.0-only",
   "author": "Ryelite Team",
@@ -79,17 +79,18 @@
         }
       ],
       "icon": "build/icon.png"
+    },
+    "nsis": {
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "uninstallDisplayName": "RyeLite",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "RyeLite"
     }
-  },
-  "nsis": {
-    "oneClick": false,
-    "allowToChangeInstallationDirectory": true,
-    "installerIcon": "build/icon.ico",
-    "uninstallerIcon": "build/icon.ico",
-    "uninstallDisplayName": "RyeLite",
-    "createDesktopShortcut": true,
-    "createStartMenuShortcut": true,
-    "shortcutName": "RyeLite"
   },
   "dependencies": {
     "@babylonjs/core": "^8.28.1",
