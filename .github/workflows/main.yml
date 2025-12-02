@@ -97,13 +97,13 @@ jobs:
         run: npm version ${{ needs.get_version.outputs.full_version }} --no-git-tag-version
       
       - name: Install Package Dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile
       
       - name: Build
-        run: npm run build
+        run: yarn run build
       
       - name: Package Application
-        run: npm run release -- --publish never
+        run: yarn run release -- --publish never
         if: ${{ !env.ACT }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
