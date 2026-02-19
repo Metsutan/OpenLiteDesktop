@@ -14,7 +14,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 export class IndexDBWrapper {
-    dbName = 'Ryelite';
+    dbName = 'OpenLite';
     storeName = 'Resources';
     db;
     initialized = false;

@@ -30,21 +30,39 @@ export default defineConfig(({ mode }) => {
           },
           proxy: {
             '/socket.io': {
-              target: 'https://server1.highspell.com:8888',
+              target: 'https://server1.openspell.dev',
               changeOrigin: true,
               secure: true,
               headers: {
-                'Origin': 'https://highspell.com',
-                'Referer': 'https://highspell.com/'
+                'Origin': 'https://openspell.dev',
+                'Referer': 'https://openspell.dev/'
+              }
+            },
+            '/play': {
+              target: 'https://openspell.dev',
+              changeOrigin: true,
+              secure: true,
+              headers: {
+                'Origin': 'https://openspell.dev',
+                'Referer': 'https://openspell.dev/'
+              }
+            },
+            '/game': {
+              target: 'https://openspell.dev',
+              changeOrigin: true,
+              secure: true,
+              headers: {
+                'Origin': 'https://openspell.dev',
+                'Referer': 'https://openspell.dev/'
               }
             },
             '/api': {
-              target: 'https://highspell.com',
+              target: 'https://api.openspell.dev',
               changeOrigin: true,
               secure: true,
               headers: {
-                'Origin': 'https://highspell.com',
-                'Referer': 'https://highspell.com/'
+                'Origin': 'https://openspell.dev',
+                'Referer': 'https://openspell.dev/'
               }
             }
           }

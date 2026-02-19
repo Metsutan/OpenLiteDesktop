@@ -28,12 +28,12 @@ app.commandLine.appendSwitch('disable-backgrounding-occluded-windows');
 //  For use with legacy plugins.
 app.on("ready", () => {
     const filter = { urls: ["*://highlite.dev/*"] };
-  
+
     session.defaultSession.webRequest.onBeforeRequest(filter, (details, callback) => {
-      const newUrl = details.url.replace("highlite.dev", "ryelite.org");
-      callback({ redirectURL: newUrl });
+        const newUrl = details.url.replace("highlite.dev", "ryelite.org");
+        callback({ redirectURL: newUrl });
     });
-  });
+});
 
 export async function createClientWindow() {
     const mainWindow = new BrowserWindow({
@@ -117,10 +117,10 @@ export async function createClientWindow() {
 
         mainWindow.webContents.session.webRequest.onBeforeSendHeaders(
             (details, callback) => {
-                if (details.url.includes('highspell.com')) {
-                    details.requestHeaders['Origin'] = 'https://highspell.com';
+                if (details.url.includes('openspell.dev')) {
+                    details.requestHeaders['Origin'] = 'https://openspell.dev';
                     details.requestHeaders['Referer'] =
-                        'https://highspell.com/';
+                        'https://openspell.dev/';
                 }
                 callback({ requestHeaders: details.requestHeaders });
             }
@@ -132,7 +132,7 @@ export async function createClientWindow() {
         mainWindow.webContents.setZoomLevel(0);
     });
 
-    
+
 
     return mainWindow;
 }

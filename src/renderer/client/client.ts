@@ -28,7 +28,7 @@ import { setupWorldSelectorObserver } from './helpers/worldSelectHelper';
 await window.settings.getAll();
 
 async function obtainGameClient() {
-    const highspellAssetsURL = 'https://highspell.com:3002/assetsClient';
+    const highspellAssetsURL = 'https://api.openspell.dev/assetsClient';
 
     const highliteResources = new HighliteResources();
     await highliteResources.init();
@@ -47,7 +47,7 @@ async function obtainGameClient() {
     async function fetchLatestClient() {
 
         // Define the highspell url
-        const highSpellClientURL = `https://highspell.com/js/client/client.${highSpellAssetJSON.data.latestClientVersion}.js`;
+        const highSpellClientURL = `https://openspell.dev/js/client/client.${highSpellAssetJSON.data.latestClientVersion}.js`;
 
         // Log the url
         console.log(highSpellClientURL);
@@ -56,7 +56,7 @@ async function obtainGameClient() {
         return await fetch(highSpellClientURL + '?time=' + Date.now()).then(r => r.text());
     }
 
-    let highSpellClient : string | null = null;
+    let highSpellClient: string | null = null;
     if (
         clientLastVersion == undefined ||
         clientLastVersion < remoteLastVersion ||
@@ -114,13 +114,27 @@ async function obtainGameClient() {
     return Promise.resolve(highSpellClient);
 }
 
-// POST Request to https://highspell.com/game
-const urlencoded = new URLSearchParams();
-urlencoded.append('submit', 'World+1');
-urlencoded.append('serverid', '1');
-urlencoded.append('serverurl', 'https://server1.highspell.com:8888');
+// POST Request to https://openspell.dev/game
+// Fetch CSRF token from /play (proxy)
+const playResponse = await fetch('/play');
+const playText = await playResponse.text();
+const playDoc = new DOMParser().parseFromString(playText, 'text/html');
+const csrfToken = playDoc.querySelector('input[name="_csrf"]')?.getAttribute('value');
 
-const response = await fetch('https://highspell.com/game', {
+if (!csrfToken) {
+    console.error('Failed to obtain CSRF token from /play');
+}
+
+// POST Request to /game (proxy)
+const urlencoded = new URLSearchParams();
+if (csrfToken) {
+    urlencoded.append('_csrf', csrfToken);
+}
+urlencoded.append('submit', 'World+1');
+urlencoded.append('serverid', '100');
+urlencoded.append('serverurl', 'https://server1.openspell.dev');
+
+const response = await fetch('/game', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: urlencoded,

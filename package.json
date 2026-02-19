@@ -1,8 +1,8 @@
 {
-  "name": "ryelite",
-  "productName": "RyeLite",
-  "version": "0.2.0",
-  "description": "A RuneLite-esque Client for the game High Spell",
+  "name": "openlite",
+  "productName": "OpenLite",
+  "version": "0.0.1",
+  "description": "A RuneLite-esque Client for the game OpenSpell",
   "homepage": "https://github.com/RyeL1te/Core#readme",
   "engines": {
     "node": "^22.x.x"
@@ -12,10 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RyeL1te/RyeliteDesktop.git"
+    "url": "git+https://github.com/Metsutan/OpenLiteDesktop.git"
   },
   "license": "GPL-3.0-only",
-  "author": "Ryelite Team",
+  "author": "Onizuka",
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
@@ -31,18 +31,18 @@
     "release": "electron-builder"
   },
   "build": {
-    "appId": "com.ryelite.desktop",
-    "copyright": "Copyright © 2025 RyeLite",
+    "appId": "com.openlite.desktop",
+    "copyright": "Copyright © 2025 OpenLite",
     "asar": true,
     "files": [
       "out/**/*.*"
     ],
-    "productName": "RyeLite",
+    "productName": "OpenLite",
     "publish": [
       {
         "provider": "github",
-        "owner": "RyeL1te",
-        "repo": "RyeliteDesktop"
+        "owner": "Metsutan",
+        "repo": "OpenLiteDesktop"
       }
     ],
     "mac": {
@@ -86,10 +86,10 @@
       "allowToChangeInstallationDirectory": true,
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
-      "uninstallDisplayName": "RyeLite",
+      "uninstallDisplayName": "OpenLite",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "RyeLite"
+      "shortcutName": "OpenLite"
     }
   },
   "dependencies": {

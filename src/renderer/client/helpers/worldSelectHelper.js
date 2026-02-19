@@ -15,7 +15,7 @@
 
 // Fetches and parses world data from https://highspell.com/play
 export async function fetchWorlds() {
-    const res = await fetch('https://highspell.com/play');
+    const res = await fetch('https://openspell.dev/play');
     const html = await res.text();
     // Parse worlds using DOMParser
     const parser = new DOMParser();
