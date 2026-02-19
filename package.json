@@ -1,7 +1,7 @@
 {
   "name": "openlite",
   "productName": "OpenLite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A RuneLite-esque Client for the game OpenSpell",
   "homepage": "https://github.com/RyeL1te/Core#readme",
   "engines": {
