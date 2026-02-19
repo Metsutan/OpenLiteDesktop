@@ -89,8 +89,8 @@ async function obtainGameClient() {
         await highliteResources.setItem('clientLastVersion', remoteLastVersion);
         console.log(
             '[Ryelite Loader] High Spell Client Version ' +
-                highSpellAssetJSON.data.latestClientVersion +
-                ' downloaded.'
+            highSpellAssetJSON.data.latestClientVersion +
+            ' downloaded.'
         );
     } else {
         console.log(
@@ -104,7 +104,7 @@ async function obtainGameClient() {
         await Reflector.loadHooksFromDB();
 
         // In the background we still bind the latest hook code for dev testing purposes (e.g finding new hooks in a script)
-        setTimeout(async() => {
+        setTimeout(async () => {
 
             // Reflect the game hooks
             await Reflector.loadHooksFromSource(highSpellClient || '');
@@ -116,13 +116,17 @@ async function obtainGameClient() {
 
 // POST Request to https://openspell.dev/game
 // Fetch CSRF token from /play (proxy)
-const playResponse = await fetch('/play');
+const playResponse = await fetch('https://openspell.dev/play', {
+    credentials: 'include'
+});
+console.log('Play Response Status:', playResponse.status);
 const playText = await playResponse.text();
 const playDoc = new DOMParser().parseFromString(playText, 'text/html');
 const csrfToken = playDoc.querySelector('input[name="_csrf"]')?.getAttribute('value');
+console.log('CSRF Token:', csrfToken);
 
 if (!csrfToken) {
-    console.error('Failed to obtain CSRF token from /play');
+    console.error('Failed to obtain CSRF token from /play. HTML Preview:', playText.substring(0, 500));
 }
 
 // POST Request to /game (proxy)
@@ -134,13 +138,18 @@ urlencoded.append('submit', 'World+1');
 urlencoded.append('serverid', '100');
 urlencoded.append('serverurl', 'https://server1.openspell.dev');
 
-const response = await fetch('/game', {
+const response = await fetch('https://openspell.dev/game', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: urlencoded,
-    redirect: 'follow',
+    redirect: 'follow', // Keep existing redirect behavior, but we might want 'manual' to see 302
+    credentials: 'include'
 });
+console.log('Game Response Status:', response.status);
+console.log('Game Response URL:', response.url);
+console.log('Game Response Redirected:', response.redirected);
 const text = await response.text();
+// console.log('Game Response Text Preview:', text.substring(0, 500));
 
 const parser = new DOMParser();
 const doc = parser.parseFromString(text, 'text/html');
@@ -156,9 +165,10 @@ Array.from(doc.head.children).forEach(child => {
         if (child.hasAttribute('href')) {
             const href = child.getAttribute('href');
             if (href && href.startsWith('/')) {
-                child.setAttribute('href', 'https://highspell.com' + href);
+                child.setAttribute('href', 'https://openspell.dev' + href);
             }
         }
+
         document.head.appendChild(child.cloneNode(true));
     }
 });
@@ -169,7 +179,7 @@ Array.from(doc.body.children).forEach(child => {
         if (child.hasAttribute('href')) {
             const href = child.getAttribute('href');
             if (href && href.startsWith('/')) {
-                child.setAttribute('href', 'https://highspell.com' + href);
+                child.setAttribute('href', 'https://openspell.dev' + href);
             }
         }
 

@@ -108,24 +108,48 @@ export async function createClientWindow() {
         });
     });
 
-    // In development, modify requests to High Spell servers
-    if (!app.isPackaged) {
-        // Set user agent and origin for High Spell compatibility
-        mainWindow.webContents.setUserAgent(
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        );
+    // Modify requests to OpenSpell servers (Dev & Prod)
+    // Set user agent and origin for OpenSpell compatibility
+    const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+    mainWindow.webContents.setUserAgent(userAgent);
 
-        mainWindow.webContents.session.webRequest.onBeforeSendHeaders(
-            (details, callback) => {
-                if (details.url.includes('openspell.dev')) {
-                    details.requestHeaders['Origin'] = 'https://openspell.dev';
-                    details.requestHeaders['Referer'] =
-                        'https://openspell.dev/';
-                }
-                callback({ requestHeaders: details.requestHeaders });
+    const filter = { urls: ['*://*.openspell.dev/*'] };
+
+    mainWindow.webContents.session.webRequest.onBeforeSendHeaders(
+        filter,
+        (details, callback) => {
+            details.requestHeaders['Origin'] = 'https://openspell.dev';
+            details.requestHeaders['Referer'] = 'https://openspell.dev/';
+            callback({ requestHeaders: details.requestHeaders });
+        }
+    );
+
+    // Inject CORS headers and relax Cookies to allow cross-origin requests
+    mainWindow.webContents.session.webRequest.onHeadersReceived(
+        filter,
+        (details, callback) => {
+            const responseHeaders = details.responseHeaders || {};
+
+            // Allow access to the response
+            responseHeaders['Access-Control-Allow-Origin'] = ['*'];
+
+            // Force cookies to be SameSite=None; Secure so they are sent in cross-origin POSTs (like /game)
+            if (responseHeaders['set-cookie']) {
+                responseHeaders['set-cookie'] = responseHeaders['set-cookie'].map(cookie => {
+                    let newCookie = cookie;
+                    // Remove existing SameSite/Secure directives to avoid duplicates/conflicts (simple string replacement)
+                    newCookie = newCookie.replace(/; SameSite=Lax/gi, '');
+                    newCookie = newCookie.replace(/; SameSite=Strict/gi, '');
+                    newCookie = newCookie.replace(/; SameSite=None/gi, ''); // We'll add it back
+                    newCookie = newCookie.replace(/; Secure/gi, ''); // We'll add it back
+
+                    return newCookie + '; SameSite=None; Secure';
+                });
             }
-        );
-    }
+
+            callback({ responseHeaders });
+        }
+    );
 
     mainWindow.on('ready-to-show', () => {
         // Always start with zoom reset to 0.0
