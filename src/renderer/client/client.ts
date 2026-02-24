@@ -23,6 +23,7 @@ import '@static/css/item-tooltip.css';
 
 import './helpers/titlebarHelpers.js';
 import { setupWorldSelectorObserver } from './helpers/worldSelectHelper';
+import { setupAuthObserver } from './helpers/authHelper';
 
 // Load settings via centralized API (values are available via window.settings)
 await window.settings.getAll();
@@ -253,6 +254,7 @@ toElements.forEach(element => {
 
 // Inject World Selector into Login Screen
 setupWorldSelectorObserver();
+setupAuthObserver();
 
 // Page Setup Completed, Add Game Client Script
 const clientScript = document.createElement('script');
