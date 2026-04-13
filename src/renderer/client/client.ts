@@ -135,7 +135,7 @@ if (csrfToken) {
     urlencoded.append('_csrf', csrfToken);
 }
 urlencoded.append('submit', 'World+1');
-urlencoded.append('serverid', '100');
+urlencoded.append('serverid', '1');
 urlencoded.append('serverurl', 'https://server1.openspell.dev');
 
 const response = await fetch('https://openspell.dev/game', {
