@@ -72,17 +72,40 @@ async function obtainGameClient() {
         // Reflect the game hooks
         await Reflector.loadHooksFromSource(highSpellClient);
 
-        // Inject the hook handlers
-        highSpellClient =
-            highSpellClient.substring(0, highSpellClient.length - 9) +
-            '; document.client = {};' +
-            'document.client.get = function(a) {' +
-            'return eval(a);' +
-            '};' +
-            'document.client.set = function(a, b) {' +
-            "eval(a + ' = ' + b);" +
-            '};' +
-            highSpellClient.substring(highSpellClient.length - 9);
+        // --- MULTI-SCOPE INJECTION ---
+        // This drops a scope-capturing probe into every module. 
+        // When get() is called, it searches all scopes until it finds the requested variable.
+        const hookCode = `window.ryeliteScopes = window.ryeliteScopes || [];
+        window.ryeliteScopes.push(function (a) {
+            return eval(a);
+        });
+        if (!document.client) {
+            document.client = {};
+            document.client.get = function (a) {
+                for (let i = 0; i < window.ryeliteScopes.length; i++) {
+                    try {
+                        let res = window.ryeliteScopes[i](a);
+                        if (res !== undefined) return res;
+                    } catch (e) {}
+                }
+            };
+            document.client.set = function (a, b) {
+                for (let i = 0; i < window.ryeliteScopes.length; i++) {
+                    try {
+                        window.ryeliteScopes[i](a + " = " + b);
+                        return;
+                    } catch (e) {}
+                }
+            };
+        }`;
+
+        if (highSpellClient.includes('"use strict";')) {
+            // Inject the probe right after the strict mode declaration of every module
+            highSpellClient = highSpellClient.replace(/"use strict";/g, '"use strict";' + hookCode);
+        } else {
+            // Fallback for non-strict files
+            highSpellClient = highSpellClient.replace(/\{/, '{' + hookCode);
+        }
 
         // Save latest version
         await highliteResources.setItem('highSpellClient', highSpellClient);
@@ -103,10 +126,7 @@ async function obtainGameClient() {
         // Load the hooks from db
         await Reflector.loadHooksFromDB();
 
-        // In the background we still bind the latest hook code for dev testing purposes (e.g finding new hooks in a script)
         setTimeout(async () => {
-
-            // Reflect the game hooks
             await Reflector.loadHooksFromSource(highSpellClient || '');
         }, 200);
     }

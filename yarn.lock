@@ -853,16 +853,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ryelite/core@npm:0.1.1":
-  version: 0.1.1
-  resolution: "@ryelite/core@npm:0.1.1"
+"@ryelite/core@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@ryelite/core@npm:0.1.2"
   dependencies:
     acorn: "npm:^8.15.0"
     acorn-walk: "npm:^8.3.4"
+    corepack: "npm:^0.34.5"
     idb: "npm:^8.0.3"
     on-change: "npm:^5.0.1"
     tsc: "npm:^2.0.4"
-  checksum: 10c0/1720f5d30c9cfbced0d0d5f77ce25a71db4c6767f868dc23d1936f3e70320e5a3357285bd7c211188273ef554256a4409a4d8b608e2ae58f5dfc5a033dd77c8d
+  checksum: 10c0/7e4be9085fffdadea2e3a96bb57e0b49e59d04ade12a2b49b397c8847e8ae59f4ba75c20507c04ed9cc49721aa7447b366e5b28d755aae883231306c30fe4c9b
   languageName: node
   linkType: hard
 
@@ -1525,6 +1526,19 @@ __metadata:
   version: 1.0.2
   resolution: "core-util-is@npm:1.0.2"
   checksum: 10c0/980a37a93956d0de8a828ce508f9b9e3317039d68922ca79995421944146700e4aaf490a6dbfebcb1c5292a7184600c7710b957d724be1e37b8254c6bc0fe246
+  languageName: node
+  linkType: hard
+
+"corepack@npm:^0.34.5":
+  version: 0.34.6
+  resolution: "corepack@npm:0.34.6"
+  bin:
+    corepack: ./dist/corepack.js
+    pnpm: ./dist/pnpm.js
+    pnpx: ./dist/pnpx.js
+    yarn: ./dist/yarn.js
+    yarnpkg: ./dist/yarnpkg.js
+  checksum: 10c0/63762d2fed870081eb6043c1f4258532baacf0c681cfadbd594fb9c2c2b329f47dccadd9bcc36067c1d6277b2addf628e2c6bf2441078e299f4f0cfb4955b6f6
   languageName: node
   linkType: hard
 
@@ -3119,7 +3133,7 @@ __metadata:
     "@electron-toolkit/tsconfig": "npm:^1.0.1"
     "@electron-toolkit/utils": "npm:^4.0.0"
     "@iconify/iconify": "npm:^3.1.1"
-    "@ryelite/core": "npm:0.1.1"
+    "@ryelite/core": "npm:^0.1.2"
     "@types/node": "npm:^22.17.1"
     electron: "npm:^37.2.6"
     electron-builder: "npm:^26.1.0"

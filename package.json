@@ -1,7 +1,7 @@
 {
   "name": "openlite",
   "productName": "OpenLite",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A RuneLite-esque Client for the game OpenSpell",
   "homepage": "https://github.com/RyeL1te/Core#readme",
   "engines": {
@@ -97,7 +97,7 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "@iconify/iconify": "^3.1.1",
-    "@ryelite/core": "0.1.1",
+    "@ryelite/core": "^0.1.2",
     "electron-log": "^5.4.2",
     "electron-updater": "^6.6.7",
     "idb": "^8.0.3",
