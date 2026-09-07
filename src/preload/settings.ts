@@ -110,13 +110,13 @@ export class settingsSchema extends SettingsSchema {
                 {
                     label: "Enable Plugins",
                     type: SettingTypes.BOOLEAN,
-                    description: "Allow the use of plugins in Ryelite.",
+                    description: "Allow the use of plugins in OpenLite.",
                     default: true
                 } as Field,
                 {
                     label: "Allow Beta Plugins",
                     type: SettingTypes.BOOLEAN,
-                    description: "Allow the use of beta plugins in Ryelite.",
+                    description: "Allow the use of beta plugins in OpenLite.",
                     default: false
                 } as Field
             ]

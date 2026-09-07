@@ -111,13 +111,13 @@ async function obtainGameClient() {
         await highliteResources.setItem('highSpellClient', highSpellClient);
         await highliteResources.setItem('clientLastVersion', remoteLastVersion);
         console.log(
-            '[Ryelite Loader] High Spell Client Version ' +
+            '[OpenLite Loader] High Spell Client Version ' +
             highSpellAssetJSON.data.latestClientVersion +
             ' downloaded.'
         );
     } else {
         console.log(
-            '[Ryelite Loader] High Spell Client Version is up to date.'
+            '[OpenLite Loader] High Spell Client Version is up to date.'
         );
 
         // Load the client from save db
@@ -289,7 +289,7 @@ if (await window.settings.getByName('Enable Plugins')) {
     let highlite = new Highlite();
 
     // Load and register all plugins using dynamic imports
-    console.log('[Ryelite] Loading plugins...');
+    console.log('[OpenLite] Loading plugins...');
     const loadedPlugins: Array<{ class: any; name: string; }> = [];
 
     try {
@@ -308,14 +308,14 @@ if (await window.settings.getByName('Enable Plugins')) {
                         name: pluginName,
                     });
                 } else {
-                    console.error(`[Ryelite] Plugin class not found in module: ${pluginName}`);
+                    console.error(`[OpenLite] Plugin class not found in module: ${pluginName}`);
                 }
             } catch (error) {
-                console.error(`[Ryelite] Failed to load plugin from ${path}:`, error);
+                console.error(`[OpenLite] Failed to load plugin from ${path}:`, error);
             }
         }
     } catch (error) {
-        console.error('[Ryelite] Error loading plugins:', error);
+        console.error('[OpenLite] Error loading plugins:', error);
     }
     await highlite.start();
 } else {
